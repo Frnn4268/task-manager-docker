@@ -1,22 +1,37 @@
+# Specify the version of Docker Compose to use.
 version: "3.8"
 
 services:
+  # Define the client service.
   client:
+    # Build the Docker image for the client from the Dockerfile in the ./client directory.
     build: ./client
+    # Set the name of the container to 'clientapp_c'.
     container_name: clientapp_c
+    # Map port 3000 on the host machine to port 3000 on the container.
     ports:
       - "3000:3000"
+    # Mount the ./client directory on the host machine to the container.
+    # Mount the /node_modules directory to avoid overwriting node_modules inside the container.
     volumes:
-      - ./client:/app
-      - /app/node_modules  
+      - ./client
+      - /node_modules  
+    # Keep the standard input open (useful for debugging or interactive use).
     stdin_open: true
+    # Allocate a pseudo-TTY (useful for interactive use).
     tty: true
 
+  # Define the server service.
   server:
-    build: ./server
+    # Build the Docker image for the server from the Dockerfile in the ./app directory.
+    build: ./app
+    # Set the name of the container to 'serverapp_c'.
     container_name: serverapp_c
+    # Map port 5000 on the host machine to port 5000 on the container.
     ports:
       - "5000:5000"
+    # Mount the ./app directory on the host machine to the container.
+    # Mount the /node_modules directory to avoid overwriting node_modules inside the container.
     volumes:
-      - ./server:/app
-      - /app/node_modules  
+      - ./app
+      - /node_modules  
