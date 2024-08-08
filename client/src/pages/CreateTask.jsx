@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button, Select } from 'antd';
 import { createTask } from '../services/taskService';
-import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
-const CreateTask = () => {
+const CreateTask = ({ closeDrawer }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     await createTask(values);
-    navigate('/');
+    closeDrawer();
   };
 
   return (
